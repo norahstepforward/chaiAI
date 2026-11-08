@@ -1,75 +1,18 @@
-import { useState } from 'react'
 import { motion } from 'framer-motion'
-
-const NEEDS_API = 'https://api.aibay.asia/needs/needs'
-
-function MessageBoard() {
-  const [form, setForm] = useState({ name: '', msg: '', contact: '' })
-  const [state, setState] = useState('idle')
-  const [tip, setTip] = useState('')
-  const set = k => e => setForm(f => ({ ...f, [k]: e.target.value }))
-
-  const submit = async e => {
-    e.preventDefault()
-    if (state === 'sending') return
-    if (form.msg.trim().length < 2) {
-      setState('error')
-      setTip('留言至少写两个字吧')
-      return
-    }
-    setState('sending')
-    setTip('')
-    try {
-      const r = await fetch(NEEDS_API, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          software: `【留言板】${form.name.trim() || '匿名站友'}`,
-          scene: '关于页留言板',
-          expect: form.msg.trim(),
-          contact: form.contact.trim() || '（未留联系方式，无需回复）',
-          website: '',
-        }),
-      })
-      const d = await r.json().catch(() => ({}))
-      if (r.ok && d.ok) {
-        setState('ok')
-        setTip('留言已送达杨教练邮箱，感谢！')
-        setForm({ name: '', msg: '', contact: '' })
-      } else {
-        setState('error')
-        setTip(d.error || '提交失败，请稍后再试')
-      }
-    } catch {
-      setState('error')
-      setTip('网络异常——也可以直接加微信 ikoning365')
-    }
-  }
-
-  return (
-    <form onSubmit={submit} className="p-6 rounded-xl bg-dark-card-hover/50 border border-dark-border space-y-3">
-      <div className="grid sm:grid-cols-2 gap-3">
-        <input value={form.name} onChange={set('name')} maxLength={20} className="rounded-xl bg-[#f5f5f7] px-3.5 py-2.5 text-[13px] text-[#1d1d1f] outline-none focus:ring-2 focus:ring-neon-purple/30" placeholder="怎么称呼你？（可不填）" />
-        <input value={form.contact} onChange={set('contact')} maxLength={40} className="rounded-xl bg-[#f5f5f7] px-3.5 py-2.5 text-[13px] text-[#1d1d1f] outline-none focus:ring-2 focus:ring-neon-purple/30" placeholder="联系方式，想收到回复就留（可不填）" />
-      </div>
-      <textarea value={form.msg} onChange={set('msg')} maxLength={500} rows={3} className="w-full rounded-xl bg-[#f5f5f7] px-3.5 py-2.5 text-[13px] text-[#1d1d1f] outline-none focus:ring-2 focus:ring-neon-purple/30 resize-none" placeholder="给杨教练和站友们说句话——建议、疑问、感想都行" />
-      <div className="flex items-center gap-3 flex-wrap">
-        <button
-          type="submit"
-          disabled={state === 'sending'}
-          className="px-5 py-2 rounded-xl bg-gradient-to-r from-neon-purple to-neon-blue text-white text-[13px] font-bold disabled:opacity-50"
-        >
-          {state === 'sending' ? '发送中…' : '写下留言'}
-        </button>
-        {tip && (
-          <span className={`text-xs ${state === 'ok' ? 'text-green-600' : 'text-red-500'}`}>{tip}</span>
-        )}
-      </div>
-    </form>
-  )
-}
+import ContactForm from '../components/ContactForm'
+import { CONTACT_EMAIL, WECHAT, mailtoLink } from '../lib/siteConfig'
 
 export default function About() {
+  const infoList = [
+    { label: '身份', value: '窗饰遮阳产业供应链出海观察者' },
+    { label: '专注', value: '全球合规与出海供应链' },
+    { label: '所在地', value: '广东佛山' },
+    { label: '内容阵地', value: '公众号 + 海外（待定）' },
+    ...(WECHAT ? [{ label: '微信', value: WECHAT }] : []),
+    ...(CONTACT_EMAIL
+      ? [{ label: '邮箱', value: CONTACT_EMAIL, href: mailtoLink('来自网站关于页') }]
+      : []),
+  ]
   return (
     <div className="pt-24 pb-20">
       <div className="max-w-4xl mx-auto px-4">
@@ -80,24 +23,21 @@ export default function About() {
         >
           {/* Avatar and name */}
           <div className="text-center mb-12">
-            <img src="/images/loong-logo.svg" alt="玄龙 logo" className="w-24 h-auto mx-auto mb-4" />
-            <h1 className="text-3xl md:text-4xl font-black text-[#1d1d1f] mb-2">杨辉</h1>
-            <p className="text-neon-purple font-medium">心光成长中心 · 企业 AI 落地教练 · 拆书帮三级拆书家</p>
+            <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-br from-neon-purple to-neon-blue flex items-center justify-center text-white text-3xl font-black">诺</div>
+            <h1 className="text-3xl md:text-4xl font-black text-[#1d1d1f] mb-2">诺拉</h1>
+            <p className="text-neon-purple font-medium">窗饰遮阳产业出海观察者 · 专注全球合规与出海供应链</p>
           </div>
 
           {/* Info grid */}
           <div className="grid md:grid-cols-2 gap-4 mb-10">
-            {[
-              { label: '角色', value: '玄龙AI FDE系统开发者' },
-              { label: '所在地', value: '广州越秀区雅苑·培正 5 号楼（工作坊地址）' },
-              { label: '所属分舵', value: '广州小蛮腰分舵' },
-              { label: '拆书等级', value: '三级拆书家' },
-              { label: '微信', value: 'ikoning365' },
-              { label: '邮箱', value: '554176937@qq.com' },
-            ].map(info => (
+            {infoList.map(info => (
               <div key={info.label} className="p-4 rounded-xl bg-dark-card-hover/50 border border-dark-border">
                 <div className="text-xs text-[#86868b] mb-1">{info.label}</div>
-                <div className="text-sm text-[#1d1d1f]">{info.value}</div>
+                <div className="text-sm text-[#1d1d1f]">
+                  {info.href
+                    ? <a href={info.href} className="text-[#0071e3] hover:underline break-all">{info.value}</a>
+                    : info.value}
+                </div>
               </div>
             ))}
           </div>
@@ -106,15 +46,10 @@ export default function About() {
           <div className="mb-10">
             <h2 className="text-xl font-bold text-[#1d1d1f] mb-4">关于我</h2>
             <div className="space-y-3 text-sm text-[#6e6e73] leading-relaxed">
-              <p className="text-base font-bold text-[#1d1d1f]">AI FDE教练｜AI量化教练</p>
-              <p>心光咨询玄龙FDE｜万丰金融大模型 联合创始人</p>
-              <ul className="space-y-2 pt-1">
-                <li>🌐 混沌学园 AI 创新领教</li>
-                <li>💡 前微软、惠普、北电工程师</li>
-                <li>🌍 国际人工智能产业联盟 首席生态官</li>
-              </ul>
+              <p className="text-base font-bold text-[#1d1d1f]">我是诺拉，窗饰遮阳产业供应链出海的观察者——专注全球合规与出海供应链。</p>
+              <p>长期深入窗饰遮阳产业链上游，观察工厂、组件与跨境渠道的真实运转，把一线的规则和变化写给需要出海的企业。</p>
               <p className="flex flex-wrap gap-2 mt-4">
-                {['企业AI FDE教练', 'AI数字员工讲师', 'AI量化投资教练'].map(tag => (
+                {['产业溯源', '出海合规', '行业对话'].map(tag => (
                   <span key={tag} className="px-3 py-1 rounded-full bg-neon-purple/10 border border-neon-purple/20 text-neon-purple text-xs">
                     {tag}
                   </span>
@@ -123,15 +58,14 @@ export default function About() {
             </div>
           </div>
 
-          {/* 服务能力 */}
+          {/* 我做什么 */}
           <div className="mb-10">
-            <h2 className="text-xl font-bold text-[#1d1d1f] mb-4">服务能力</h2>
-            <div className="grid md:grid-cols-4 gap-3">
+            <h2 className="text-xl font-bold text-[#1d1d1f] mb-4">我做什么</h2>
+            <div className="grid md:grid-cols-3 gap-3">
               {[
-                { name: '培训', desc: 'AI 拆书工作坊、数字员工实操、企业AI FDE 实战' },
-                { name: '咨询', desc: '企业内部创业辅导、科技成果转化、组织转型' },
-                { name: '教练', desc: '企业AI FDE、高管心智教练、AI 内创业加速' },
-                { name: '投资', desc: 'AI 项目评估、科技创业辅导、资源对接' },
+                { name: '产业溯源内容', desc: '深入窗饰遮阳产业链上游，把工厂、组件、供应链的真实运转写出来给企业看' },
+                { name: '出海合规观察', desc: '跟踪欧美 / 中东 / 东南亚市场的认证、标准与采购规则变化' },
+                { name: '行业对话 IP', desc: '公众号 + 海外（待定），做窗饰产业人物的深度对话' },
               ].map(s => (
                 <div key={s.name} className="p-4 rounded-xl bg-dark-card-hover/50 border border-dark-border">
                   <div className="text-lg font-bold text-[#1d1d1f] mb-1">{s.name}</div>
@@ -141,87 +75,28 @@ export default function About() {
             </div>
           </div>
 
-          {/* 鸣谢 */}
+          {/* 公众号 */}
           <div className="mb-10">
-            <h2 className="text-xl font-bold text-[#1d1d1f] mb-4">鸣谢</h2>
-            <div className="p-6 rounded-xl bg-gradient-to-r from-neon-blue/10 to-neon-purple/10 border border-neon-blue/20">
-              <p className="text-sm text-[#1d1d1f] leading-relaxed mb-4">
-                🙏 衷心感谢所有参与本站共建和帮助优化本站的<strong>拆书家</strong>与<strong>学习者</strong>——
-                你们的每一段拆页、每一次反馈，都在让这座共同成长的图书馆变得更好。
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {[
-                  '2255 本经典书籍',
-                  '3700+ 位拆书家',
-                  '19000+ 拆页卡片',
-                  '无数次的共创与打磨',
-                ].map(s => (
-                  <span key={s} className="px-3 py-1 rounded-full bg-white/50 border border-dark-border text-xs text-[#6e6e73]">
-                    {s}
-                  </span>
-                ))}
-              </div>
-              <p className="text-xs text-[#86868b] mt-4">
-                本站拆经典栏目内容整理自拆书帮社区公开拆页（非官方），著作权归各位拆书家本人所有，仅作学习交流之用、不用于商业用途；个人信息已脱敏。如有异议请联系站长（微信 ikoning365 / 邮箱 554176937@qq.com），核实后即刻移除。
-              </p>
-            </div>
-          </div>
-
-          {/* 个人微信公众号 */}
-          <div className="mb-10">
-            <h2 className="text-xl font-bold text-[#1d1d1f] mb-4">个人微信公众号</h2>
+            <h2 className="text-xl font-bold text-[#1d1d1f] mb-4">公众号</h2>
             <div className="flex flex-col sm:flex-row items-center gap-6">
               <img
                 src="/images/gzh-qr.png"
-                alt="公众号「AI创新增长杨教练」二维码"
+                alt="公众号「窗饰遮阳出海观察」二维码"
                 className="w-44 h-44 rounded-xl border border-dark-border bg-white"
               />
               <div className="text-center sm:text-left space-y-3">
                 <span className="inline-block px-4 py-2 rounded-lg bg-neon-purple/10 border border-neon-purple/20 text-base font-bold text-neon-purple">
-                  AI创新增长杨教练
+                  窗饰遮阳出海观察
                 </span>
-                <p className="text-sm text-[#6e6e73]">微信扫码，或搜索「AI创新增长杨教练」关注</p>
+                <p className="text-sm text-[#6e6e73]">微信扫码关注，第一时间收到产业溯源与出海合规更新</p>
+                <p className="text-xs text-[#86868b]">微信搜一搜：窗饰遮阳出海观察 · 原始ID gh_267595e27396</p>
               </div>
             </div>
           </div>
 
-          {/* 拆AI 企业微信讨论群 */}
-          <div className="mb-10">
-            <h2 className="text-xl font-bold text-[#1d1d1f] mb-4">拆AI 企业微信讨论群</h2>
-            <div className="flex flex-col sm:flex-row items-center gap-6">
-              <img
-                src="/images/wecom-group-qr.png"
-                alt="拆AI 企业微信讨论群二维码"
-                className="w-44 h-44 rounded-xl border border-dark-border bg-white"
-                onError={(e) => { e.currentTarget.style.display = 'none'; }}
-              />
-              <div className="text-center sm:text-left space-y-3">
-                <span className="inline-block px-4 py-2 rounded-lg bg-neon-blue/10 border border-neon-blue/20 text-base font-bold text-neon-blue">
-                  心光AI FDE群 · 拆AI讨论
-                </span>
-                <p className="text-sm text-[#6e6e73]">企业微信扫码进群，与拆书家们一起拆 AI、拆为己用</p>
-              </div>
-            </div>
-          </div>
-
-          {/* 留言板 */}
-          <div className="mb-10">
-            <h2 className="text-xl font-bold text-[#1d1d1f] mb-2">留言板</h2>
-            <p className="text-sm text-[#6e6e73] mb-4">匿名即可，不用注册任何账号；想收到回复就顺手留个联系方式。</p>
-            <MessageBoard />
-          </div>
-
-          {/* Contact CTA */}
-          <div className="mt-12 p-6 rounded-xl bg-gradient-to-r from-neon-purple/10 to-neon-blue/10 border border-neon-purple/20 text-center">
-            <h3 className="text-lg font-bold text-[#1d1d1f] mb-2">联系我</h3>
-            <p className="text-sm text-[#6e6e73] mb-4">
-              培训 · 咨询 · 教练 · 投资
-            </p>
-            <span
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-neon-purple to-neon-blue text-white font-medium text-sm"
-            >
-              微信联系 · ikoning365
-            </span>
+          {/* Contact */}
+          <div className="mt-12">
+            <ContactForm />
           </div>
         </motion.div>
       </div>
