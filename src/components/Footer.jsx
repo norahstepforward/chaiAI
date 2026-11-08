@@ -1,9 +1,7 @@
 import { Link } from 'react-router-dom'
-import { nextOpen } from '../data/workshops'
 import { CONTACT_EMAIL, mailtoLink } from '../lib/siteConfig'
 
 export default function Footer() {
-  const nx = nextOpen()
   return (
     <footer className="border-t border-black/[.06] bg-[#f5f5f7]">
       <div className="max-w-6xl mx-auto px-4 py-12">
@@ -15,19 +13,21 @@ export default function Footer() {
             </p>
           </div>
           <div>
-            <div className="text-[12px] font-semibold text-[#1d1d1f] mb-3">课程</div>
+            <div className="text-[12px] font-semibold text-[#1d1d1f] mb-3">内容</div>
             <ul className="space-y-2 text-[13px] text-[#6e6e73]">
-              <li><Link to="/workshops" className="hover:text-[#0071e3] transition-colors">工作坊全系列</Link></li>
-              <li><Link to="/learning-path" className="hover:text-[#0071e3] transition-colors">拆成长</Link></li>
-              <li><a href={nx ? nx.link : '/workshops'} className="hover:text-[#0071e3] transition-colors">{nx ? '报名下一场' : '课程材料回看'}</a></li>
+              <li><Link to="/frontier" className="hover:text-[#0071e3] transition-colors">窗饰前沿</Link></li>
+              <li><Link to="/industry" className="hover:text-[#0071e3] transition-colors">产业专栏</Link></li>
+              <li><Link to="/tools" className="hover:text-[#0071e3] transition-colors">方法工具</Link></li>
+              <li><Link to="/about" className="hover:text-[#0071e3] transition-colors">关于我</Link></li>
             </ul>
           </div>
           <div>
-            <div className="text-[12px] font-semibold text-[#1d1d1f] mb-3">资源</div>
+            <div className="text-[12px] font-semibold text-[#1d1d1f] mb-3">知识链接</div>
             <ul className="space-y-2 text-[13px] text-[#6e6e73]">
+              <li><Link to="/knowledge" className="hover:text-[#0071e3] transition-colors">知识栏目总入口</Link></li>
               <li><Link to="/hot/books" className="hover:text-[#0071e3] transition-colors">拆经典</Link></li>
-              <li><Link to="/skills" className="hover:text-[#0071e3] transition-colors">拆技能工坊</Link></li>
-              <li><a href="https://www.aibay.asia" target="_blank" rel="noreferrer" className="hover:text-[#0071e3] transition-colors">aibay.asia</a></li>
+              <li><Link to="/workshops" className="hover:text-[#0071e3] transition-colors">拆软件工作坊</Link></li>
+              <li><Link to="/skills" className="hover:text-[#0071e3] transition-colors">拆技能</Link></li>
             </ul>
           </div>
         </div>

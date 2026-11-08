@@ -13,6 +13,10 @@ import Coai from './pages/Coai'
 import SkillFusion from './pages/SkillFusion'
 import Workshops from './pages/Workshops'
 import Camp from './pages/Camp'
+import Frontier from './pages/Frontier'
+import Industry from './pages/Industry'
+import Tools from './pages/Tools'
+import Knowledge from './pages/Knowledge'
 
 function RedirectBook() {
   const { title } = useParams()
@@ -31,6 +35,10 @@ function App() {
       <main className="flex-1">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/frontier" element={<Frontier />} />
+          <Route path="/industry" element={<Industry />} />
+          <Route path="/tools" element={<Tools />} />
+          <Route path="/knowledge" element={<Knowledge />} />
           <Route path="/workshops" element={<Workshops />} />
           <Route path="/camp" element={<Camp />} />
           <Route path="/book/:title" element={<RedirectBook />} />
