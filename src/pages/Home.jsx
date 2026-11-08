@@ -264,14 +264,14 @@ export default function Home() {
       {/* ==================== CTA ==================== */}
       <section className="py-20 px-4 bg-white border-t border-black/[.05]">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="headline text-[28px] md:text-[36px] mb-4">先上知识库，开课前就把方法装进口袋。</h2>
+          <h2 className="headline text-[28px] md:text-[36px] mb-4">关注公众号，看见产业链上游的真实运转。</h2>
           <p className="text-[#6e6e73] text-[15px] leading-relaxed mb-6">
-            这里是【小蛮腰AI拆书帮】的线上知识库：六期工作坊的全部课件与材料、25 本经典共拆电子书、TF1–TF3 拆书法全套指导，还有广州小蛮腰、北京宇宙中心两个分舵 500+ 期活动的真实拆书实录。AI 帮你把书拆成能用的能力——扫码订阅，随时搜、随时问。
+            产业溯源、出海合规、行业对话——窗饰遮阳产业链上游的工厂、组件与跨境渠道，把一线的规则和变化写给需要出海的企业。
           </p>
           <div className="flex flex-col items-center gap-3">
-            <img src="/images/ima-knowledge-qr.png" alt="【小蛮腰AI拆书帮】知识库二维码" className="w-[200px] rounded-2xl border border-black/[.06] shadow-[0_8px_28px_rgba(0,0,0,.10)]" />
-            <p className="text-[14px] text-[#6e6e73] font-semibold">微信或 ima 扫码，订阅【小蛮腰AI拆书帮】知识库</p>
-            <a href={nx ? first.link : '/workshops'} className="text-[13px] text-[#0071e3] hover:underline">{nx ? `了解第 ${parseInt(first.no, 10)} 期课程 →` : '看全部课程与材料回看 →'}</a>
+            <img src="/images/gzh-qr.png" alt="公众号「窗饰遮阳出海观察」二维码" className="w-[200px] rounded-2xl border border-black/[.06] shadow-[0_8px_28px_rgba(0,0,0,.10)]" />
+            <p className="text-[14px] text-[#6e6e73] font-semibold">微信扫码关注「窗饰遮阳出海观察」</p>
+            <Link to="/about" className="text-[13px] text-[#0071e3] hover:underline">了解我做的事 →</Link>
           </div>
         </div>
       </section>

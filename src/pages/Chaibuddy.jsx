@@ -71,9 +71,8 @@ const DEFAULT_MODE = {
 const ALL_MODES = { ...MODES, start: DEFAULT_MODE }
 
 const CONTACT_URL = 'https://www.chaishubang.com/'
-const OWNER_MAIL = '554176937@qq.com'
-const OWNER_WX = 'ikoning365'
-const NEEDS_API = 'https://api.aibay.asia/needs/needs'
+const OWNER_MAIL = '529522930@qq.com'
+const NEEDS_API = 'https://formsubmit.co/ajax/529522930@qq.com'
 
 // ===== 牵线弹窗表单 =====
 function BrokerModal({ p, onClose }) {
@@ -96,7 +95,7 @@ function BrokerModal({ p, onClose }) {
   }, [onClose, state])
 
   const modeNames = picked.map(id => (ALL_MODES[id] ? ALL_MODES[id].full : '另有想法'))
-  const mailtoHref = `mailto:${OWNER_MAIL}?subject=${encodeURIComponent(`拆搭子合作牵线 · ${form.name.trim() || '（未署名）'}`)}&body=${encodeURIComponent(`杨辉你好，我是${form.name.trim()}${form.rudder.trim() ? `（${form.rudder.trim()}）` : ''}。\n\n想聊的合作模式：${modeNames.length ? modeNames.join('；') : '待定'}\n\n我的想法：${form.note.trim() || '（见面聊）'}\n\n我的联系方式：${form.contact.trim() || '（邮件回复即可）'}`)}`
+  const mailtoHref = `mailto:${OWNER_MAIL}?subject=${encodeURIComponent(`拆搭子合作牵线 · ${form.name.trim() || '（未署名）'}`)}&body=${encodeURIComponent(`诺拉你好，我是${form.name.trim()}${form.rudder.trim() ? `（${form.rudder.trim()}）` : ''}。\n\n想聊的合作模式：${modeNames.length ? modeNames.join('；') : '待定'}\n\n我的想法：${form.note.trim() || '（见面聊）'}\n\n我的联系方式：${form.contact.trim() || '（邮件回复即可）'}`)}`
 
   const submit = async e => {
     e.preventDefault()
@@ -118,7 +117,7 @@ function BrokerModal({ p, onClose }) {
         }),
       })
       const d = await r.json().catch(() => ({}))
-      if (r.ok && d.ok) setState('ok')
+      if (r.ok) setState('ok')
       else { setState('error'); setMsg(d.error || '提交失败，请稍后再试') }
     } catch {
       setState('error'); setMsg('网络异常，提交失败——可改用邮件发送')
@@ -134,7 +133,7 @@ function BrokerModal({ p, onClose }) {
             <div className="w-14 h-14 mx-auto rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-2xl">🤝</div>
             <h3 className="text-lg font-black text-[#1d1d1f] mt-4">牵线卡已发出！</h3>
             <p className="text-sm text-[#6e6e73] mt-2 leading-relaxed">
-              你的合作意向已发到站长邮箱（{OWNER_MAIL}），杨辉会通过你留的联系方式尽快回复你。
+              你的合作意向已发到站长邮箱（{OWNER_MAIL}），我会通过你留的联系方式尽快回复你。
             </p>
             <button type="button" onClick={onClose} className="mt-6 px-6 py-2.5 rounded-xl text-xs font-bold bg-[#1d1d1f] text-white hover:bg-[#3a3a3c] transition-colors">好的</button>
           </div>
@@ -155,7 +154,7 @@ function BrokerModal({ p, onClose }) {
               </label>
               <label className="flex flex-col gap-1">
                 <span className="text-[11px] font-bold text-[#1d1d1f]">分舵</span>
-                <input value={form.rudder} onChange={set('rudder')} maxLength={30} className="rounded-xl bg-[#f5f5f7] px-3.5 py-2.5 text-[13px] text-[#1d1d1f] outline-none focus:ring-2 focus:ring-amber-500/40" placeholder="如：广州小蛮腰分舵" />
+                <input value={form.rudder} onChange={set('rudder')} maxLength={30} className="rounded-xl bg-[#f5f5f7] px-3.5 py-2.5 text-[13px] text-[#1d1d1f] outline-none focus:ring-2 focus:ring-amber-500/40" placeholder="如：佛山" />
               </label>
             </div>
 

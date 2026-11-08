@@ -49,6 +49,17 @@ export default function ContactForm() {
         }),
       })
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      const data = await res.json().catch(() => ({}))
+      // FormSubmit 未激活时会返回 200 + success:"false"，此时不能算发送成功
+      if (String(data.success) !== 'true') {
+        setStatus('error')
+        setError(
+          /activat/i.test(data.message || '')
+            ? '表单还没激活，请先到 QQ 邮箱点开 FormSubmit 的激活邮件，再重新提交。'
+            : (data.message || `发送失败，请直接发邮件到 ${CONTACT_EMAIL}。`)
+        )
+        return
+      }
       setStatus('success')
       setForm({ name: '', email: '', topic: TOPICS[0], message: '', honey: '' })
     } catch (err) {

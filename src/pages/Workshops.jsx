@@ -48,7 +48,7 @@ function SupportCard({ t, i }) {
   )
 }
 
-const NEEDS_API = 'https://api.aibay.asia/needs/needs'
+const NEEDS_API = 'https://formsubmit.co/ajax/529522930@qq.com'
 
 function NeedsForm() {
   const [form, setForm] = useState({ software: '', scene: '', expect: '', contact: '', website: '' })
@@ -78,17 +78,17 @@ function NeedsForm() {
         body: JSON.stringify(form),
       })
       const d = await r.json().catch(() => ({}))
-      if (r.ok && d.ok) {
+      if (r.ok) {
         setState('ok')
         window.alert(d.mailed ? '提交成功！需求已发送到站长邮箱，我们会尽快回复你。' : '提交成功！我们按需求排期后，会通过你留的联系方式告诉你。')
         setForm({ software: '', scene: '', expect: '', contact: '', website: '' })
       } else {
         setState('error')
-        setMsg(d.error || '提交失败，请稍后再试，或直接加微信 ikoning365')
+        setMsg(d.error || '提交失败，请稍后再试，或直接发邮件到 529522930@qq.com')
       }
     } catch {
       setState('error')
-      setMsg('网络异常，提交失败——加微信 ikoning365 一样能提需求')
+      setMsg('网络异常，提交失败——发邮件到 529522930@qq.com 一样能提需求')
     }
   }
 
@@ -124,7 +124,7 @@ function NeedsForm() {
       {state === 'error' && (
         <div className="mt-4 rounded-xl bg-[#ff2d55]/10 text-[#d1334e] text-[13.5px] px-4 py-3">
           {msg}
-          <button type="button" onClick={() => { try { navigator.clipboard?.writeText('ikoning365') } catch (e) {} }} className="ml-2 underline font-semibold">复制微信 ikoning365</button>
+          <button type="button" onClick={() => { try { navigator.clipboard?.writeText('529522930@qq.com') } catch (e) {} }} className="ml-2 underline font-semibold">复制微信 529522930@qq.com</button>
         </div>
       )}
     </form>
@@ -142,7 +142,7 @@ export default function Workshops() {
     <div className="hero-wash">
       <section className="pt-32 pb-16 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="eyebrow mb-4">拆书帮小蛮腰AI拆书课 小蛮腰拆AI工坊</div>
+          <div className="eyebrow mb-4">窗饰遮阳出海观察 · 产业内容与行业对话</div>
           <h1 className="headline text-[38px] md:text-[52px] mb-5">想拆哪个，<span className="gradient-text">你说了算</span></h1>
           <p className="text-[16px] md:text-[17px] leading-relaxed text-[#6e6e73] max-w-2xl mx-auto">{seriesIntro}</p>
         </div>
@@ -216,7 +216,7 @@ export default function Workshops() {
                 <>
                   {w.link && <a href={w.link} className="btn-primary">材料回看 · 课件与学员材料 →</a>}
                   {w.guide && <a href={w.guide} className="btn-secondary">自助跟做手册 · 零基础也能一步步做出成果 →</a>}
-                  <button type="button" onClick={() => { try { navigator.clipboard?.writeText('ikoning365') } catch (e) {} }} className="btn-secondary" title="点击复制微信号">想听下一场：微信 ikoning365 📋</button>
+                  <button type="button" onClick={() => { try { navigator.clipboard?.writeText('529522930@qq.com') } catch (e) {} }} className="btn-secondary" title="点击复制邮箱">想听下一场：邮箱 529522930@qq.com 📋</button>
                 </>
               ) : s === 'live' ? (
                 <>
@@ -226,7 +226,7 @@ export default function Workshops() {
               ) : w.signupUrl ? (
                 <a href={w.signupUrl} target="_blank" rel="noreferrer" className="btn-primary">立即报名（拆书帮公众号）→</a>
               ) : (
-                <button type="button" onClick={() => { try { navigator.clipboard?.writeText('ikoning365') } catch (e) {} }} className="btn-primary" title="点击复制微信号">立即报名（微信 ikoning365）→</button>
+                <button type="button" onClick={() => { try { navigator.clipboard?.writeText('529522930@qq.com') } catch (e) {} }} className="btn-primary" title="点击复制邮箱">立即报名（微信 529522930@qq.com）→</button>
               )}
               {s !== 'done' && w.link && <a href={w.link} className="btn-secondary">看本场完整介绍 →</a>}
             </div>
@@ -351,14 +351,14 @@ export default function Workshops() {
           ))}
           <div className="mt-6 mb-4 text-center">
             <p className="text-[14px] text-[#6e6e73] mb-5">
-              投完票想聊聊？加微信 ikoning365，备注「工作坊」——也帮你想拆的软件出出主意。
+              投完票想聊聊？发邮件到 529522930@qq.com，备注「工作坊」——也帮你想拆的软件出出主意。
             </p>
             {nx ? (
               <a href={nx.signupUrl || nx.link} target={nx.signupUrl ? '_blank' : undefined} rel="noreferrer" className="btn-primary">报名 {shortDate(nx)} 场（{nx.title.split(' · ')[0]}）→</a>
             ) : (
               <a href={done.length ? done[done.length - 1].link : '/workshops'} className="btn-primary">看已交付课程材料 →</a>
             )}
-            <button type="button" onClick={() => { try { navigator.clipboard?.writeText('ikoning365') } catch (e) {} }} className="btn-secondary" title="点击复制微信号">后续场次报名：微信 ikoning365 📋</button>
+            <button type="button" onClick={() => { try { navigator.clipboard?.writeText('529522930@qq.com') } catch (e) {} }} className="btn-secondary" title="点击复制邮箱">后续场次报名：邮箱 529522930@qq.com 📋</button>
             <div className="mt-5">
               <a href="/camp" className="text-[14px] text-[#2997ff] hover:underline">线上也能玩：拆AI营 · 工作流/工作台/量化三版块，每周三晚开拆 →</a>
             </div>
